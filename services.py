@@ -2,11 +2,9 @@
 
 import os
 import json
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from email.mime.application import MIMEApplication
+import base64
 
+import requests
 from fpdf import FPDF
 
 # --- Base de datos simple (JSON file) para pedidos ya procesados ---
@@ -71,7 +69,7 @@ def generar_pdf_agradecimiento(nombre_comprador: str, order_id) -> bytes:
     return pdf.output()
 
 
-# --- Envío de emails ---
+# --- Envío de emails via Resend (HTTP API) ---
 
 
 def enviar_email(
@@ -80,42 +78,52 @@ def enviar_email(
     adjuntos: list[tuple[str, bytes]],
 ):
     """
-    Envía un email con adjuntos a todos los destinatarios.
+    Envía un email con adjuntos a todos los destinatarios usando Resend API.
     adjuntos: lista de (nombre_archivo, bytes_contenido)
     """
-    gmail_user = os.getenv("GMAIL_USER")
-    gmail_password = os.getenv("GMAIL_APP_PASSWORD")
+    api_key = os.getenv("RESEND_API_KEY")
+    from_email = os.getenv("RESEND_FROM", "onboarding@resend.dev")
     destinatarios = os.getenv("EMAIL_DESTINATARIOS", "").split(",")
     destinatarios = [d.strip() for d in destinatarios if d.strip()]
 
-    if not gmail_user or not gmail_password:
-        print("[EMAIL] Error: GMAIL_USER y GMAIL_APP_PASSWORD no configurados")
+    if not api_key:
+        print("[EMAIL] Error: RESEND_API_KEY no configurado")
         return False
 
     if not destinatarios:
         print("[EMAIL] Error: EMAIL_DESTINATARIOS no configurado")
         return False
 
-    msg = MIMEMultipart()
-    msg["From"] = gmail_user
-    msg["To"] = ", ".join(destinatarios)
-    msg["Subject"] = asunto
-
-    msg.attach(MIMEText(cuerpo, "plain"))
-
+    # Preparar adjuntos en formato Resend (base64)
+    attachments = []
     for nombre, contenido in adjuntos:
-        part = MIMEApplication(contenido, Name=nombre)
-        part["Content-Disposition"] = f'attachment; filename="{nombre}"'
-        msg.attach(part)
+        attachments.append({
+            "filename": nombre,
+            "content": base64.b64encode(contenido).decode("utf-8"),
+        })
 
     try:
-        server = smtplib.SMTP("smtp.gmail.com", 587, timeout=30)
-        server.starttls()
-        server.login(gmail_user, gmail_password)
-        server.sendmail(gmail_user, destinatarios, msg.as_string())
-        server.quit()
-        print(f"[EMAIL] Enviado a {destinatarios}")
-        return True
+        resp = requests.post(
+            "https://api.resend.com/emails",
+            headers={
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "from": from_email,
+                "to": destinatarios,
+                "subject": asunto,
+                "text": cuerpo,
+                "attachments": attachments,
+            },
+            timeout=30,
+        )
+        if resp.status_code == 200:
+            print(f"[EMAIL] Enviado a {destinatarios}")
+            return True
+        else:
+            print(f"[EMAIL] Error Resend: {resp.status_code} - {resp.text}")
+            return False
     except Exception as e:
         print(f"[EMAIL] Error enviando email: {e}")
         return False
