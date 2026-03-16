@@ -155,6 +155,17 @@ def auth_callback():
         return jsonify({"error": str(e)}), 500
 
 
+@app.route("/auth/tokens")
+def auth_tokens():
+    """Muestra los tokens actuales (para copiarlos a las variables de entorno como backup)."""
+    tokens = ml._load_tokens()
+    return jsonify({
+        "access_token": tokens.get("access_token", ""),
+        "refresh_token": tokens.get("refresh_token", ""),
+        "mensaje": "Copiá el refresh_token a la variable ML_REFRESH_TOKEN en Render para que sobreviva redeploys.",
+    })
+
+
 @app.route("/webhook/mercadolibre", methods=["POST"])
 def webhook_ml():
     """
