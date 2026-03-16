@@ -1,0 +1,1687 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.mercadolibre.com/oauth/token",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "grant_type",
+              "value": "authorization_code"
+            },
+            {
+              "name": "client_id",
+              "value": "1681042456336215"
+            },
+            {
+              "name": "client_secret",
+              "value": "bG0ZzkbBpqBCR72pbOb299VVbfdhpx0A"
+            },
+            {
+              "name": "code",
+              "value": "={{ $json.query.code }}"
+            },
+            {
+              "name": "redirect_uri",
+              "value": "https://electrobacap.app.n8n.cloud/webhook/video"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -1168,
+        -176
+      ],
+      "id": "4e3f1160-d2ec-414d-9f8d-d135173220d4",
+      "name": "Actualiza Token ML"
+    },
+    {
+      "parameters": {
+        "path": "video",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1392,
+        -176
+      ],
+      "id": "9e4322ba-fbb8-43e4-aa76-739c124e1942",
+      "name": "Webhook",
+      "webhookId": "33f5c79d-010b-4da3-88d0-186e499403ae"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.mercadolibre.com/oauth/token",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "grant_type",
+              "value": "refresh_token"
+            },
+            {
+              "name": "client_id",
+              "value": "1681042456336215"
+            },
+            {
+              "name": "client_secret",
+              "value": "bG0ZzkbBpqBCR72pbOb299VVbfdhpx0A"
+            },
+            {
+              "name": "refresh_token",
+              "value": "={{ $json.refresh_token }}"
+            },
+            {
+              "name": "redirect_uri",
+              "value": "https://electrobacap.app.n8n.cloud/webhook/video"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -960,
+        -176
+      ],
+      "id": "471c7873-38fe-46d5-a673-4dba6a0ae3ae",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.mercadolibre.com/oauth/token",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "grant_type",
+              "value": "refresh_token"
+            },
+            {
+              "name": "client_id",
+              "value": "1681042456336215"
+            },
+            {
+              "name": "client_secret",
+              "value": "bG0ZzkbBpqBCR72pbOb299VVbfdhpx0A"
+            },
+            {
+              "name": "refresh_token",
+              "value": "={{ $json.Value }}"
+            },
+            {
+              "name": "redirect_uri",
+              "value": "https://electrobacap.app.n8n.cloud/webhook/video"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -992,
+        16
+      ],
+      "id": "bd1d92b7-555d-4bb9-875c-fc4f58ae1194",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "BySv6nN2G91Tmb29",
+          "mode": "list",
+          "cachedResultName": "MERCADOLIBRE",
+          "cachedResultUrl": "/projects/QMhvGbUSENwwqF91/datatables/BySv6nN2G91Tmb29"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "token",
+              "keyValue": "refresh_token"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        -1200,
+        16
+      ],
+      "id": "604d1a88-2790-4261-ba32-de67a019afc2",
+      "name": "Get row(s)",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "value": "BySv6nN2G91Tmb29",
+          "mode": "list",
+          "cachedResultName": "MERCADOLIBRE",
+          "cachedResultUrl": "/projects/QMhvGbUSENwwqF91/datatables/BySv6nN2G91Tmb29"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "token",
+              "keyValue": "access_token"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Value": "={{ $json.access_token }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "token",
+              "displayName": "token",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Value",
+              "displayName": "Value",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "dryRun": false
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        -784,
+        16
+      ],
+      "id": "9b8bbdc1-59da-4d85-9ad0-003cabcc0960",
+      "name": "Update row access_token1"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "value": "BySv6nN2G91Tmb29",
+          "mode": "list",
+          "cachedResultName": "MERCADOLIBRE",
+          "cachedResultUrl": "/projects/QMhvGbUSENwwqF91/datatables/BySv6nN2G91Tmb29"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "token",
+              "keyValue": "refresh_token"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Value": "={{ $('HTTP Request1').item.json.refresh_token }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "token",
+              "displayName": "token",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Value",
+              "displayName": "Value",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "dryRun": false
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        -592,
+        16
+      ],
+      "id": "135380d5-304b-4477-8c14-3c1a88e3208c",
+      "name": "Update row refresh_token1"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "value": "BySv6nN2G91Tmb29",
+          "mode": "list",
+          "cachedResultName": "MERCADOLIBRE",
+          "cachedResultUrl": "/projects/QMhvGbUSENwwqF91/datatables/BySv6nN2G91Tmb29"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "token": "refresh_token",
+            "Value": "={{$json.refresh_token}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "token",
+              "displayName": "token",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Value",
+              "displayName": "Value",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "dryRun": false
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        -576,
+        -176
+      ],
+      "id": "c8c8fc05-7340-47d7-98ed-bc1baa97f1c9",
+      "name": "Update row refresh_token"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "value": "BySv6nN2G91Tmb29",
+          "mode": "list",
+          "cachedResultName": "MERCADOLIBRE",
+          "cachedResultUrl": "/projects/QMhvGbUSENwwqF91/datatables/BySv6nN2G91Tmb29"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "token": "access_token",
+            "Value": "={{$json.access_token}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "token",
+              "displayName": "token",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Value",
+              "displayName": "Value",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "dryRun": false
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        -768,
+        -176
+      ],
+      "id": "b3ce763c-ad61-4602-9d4b-9a07f2fd5c8f",
+      "name": "Update row access_token"
+    },
+    {
+      "parameters": {
+        "url": "https://api.mercadolibre.com/orders/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "seller",
+              "value": "2442769421"
+            },
+            {
+              "name": "order.status",
+              "value": "paid"
+            },
+            {
+              "name": "sort",
+              "value": "date_desc"
+            },
+            {
+              "name": "limit",
+              "value": "10"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "={{\"Bearer \"}}{{ $json.Value }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "87fbbe02-45f0-4987-9367-274b7db82d8e",
+      "name": "📦 Obtener pedidos pagados",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -848,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.mercadolibre.com/shipment_labels?shipment_ids={{ $('Obtener Shipping Status').item.json.id }}&response_type.pdf",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "response_type",
+              "value": "pdf"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "={{\"Bearer \"}}{{ $('Get Acces Token1').item.json.Value }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "id": "a0cbf030-beb5-439f-a470-b6684b79906c",
+      "name": "🏷 Descargar etiqueta PDF",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        96,
+        416
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "log1",
+              "name": "pedido_id",
+              "value": "={{ $('Separar pedidos').item.json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "log2",
+              "name": "whatsapp_message_id",
+              "value": "={{ $json.messages[0].id }}",
+              "type": "string"
+            },
+            {
+              "id": "log3",
+              "name": "estado",
+              "value": "enviado_ok",
+              "type": "string"
+            },
+            {
+              "id": "log4",
+              "name": "fecha",
+              "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "64fc68b4-af41-441b-a36a-2aba415df163",
+      "name": "📝 Registrar envío",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1008,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "skip1",
+              "name": "pedido_id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "skip2",
+              "name": "estado_envio",
+              "value": "={{ $json.shipping.status }}",
+              "type": "string"
+            },
+            {
+              "id": "skip3",
+              "name": "motivo",
+              "value": "no_listo_para_enviar",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8770a993-8ed2-4128-829e-3a8e76b4fdbd",
+      "name": "⏭ Omitir pedido",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        64,
+        576
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.mercadolibre.com/shipments/{{ $json.shipping.id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "={{\"Bearer \"}}{{ $('Get Acces Token1').item.json.Value }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c0be10f2-11ca-4f09-b9eb-4e33d17de183",
+      "name": "Obtener Shipping Status",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -512,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "results",
+        "options": {}
+      },
+      "id": "3f31b976-1568-41af-866b-ddbe28faf409",
+      "name": "Separar pedidos",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -688,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "bombre.12.9@gmail.com",
+        "subject": "Etiqueta pedido ",
+        "message": "Tu etiqueta de envío está lista para imprimir.",
+        "options": {
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              {
+                "property": "data,data2"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        544,
+        400
+      ],
+      "id": "47546794-fb88-416d-8eb4-c27afdb7fafe",
+      "name": "Send a message",
+      "webhookId": "f29bae9c-b7e7-4b0e-88ee-0598b5b97de5",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "kVHFbzN1ZqYJAYp8",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "santiagoignaciosuarez@gmail.com",
+        "subject": "Etiqueta pedido ",
+        "message": "Tu etiqueta de envío está lista para imprimir.",
+        "options": {
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              {}
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        544,
+        592
+      ],
+      "id": "45bd79e2-acdb-432e-b74d-6b59cbb5639f",
+      "name": "Send a message1",
+      "webhookId": "f29bae9c-b7e7-4b0e-88ee-0598b5b97de5",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "kVHFbzN1ZqYJAYp8",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -1392,
+        16
+      ],
+      "id": "4c9954fe-1d5d-4db5-809c-1f34a45e0dab",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -1360,
+        480
+      ],
+      "id": "7c29d6d3-03e1-4348-8ded-47e29282a8b3",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 1 * *"
+            }
+          ]
+        }
+      },
+      "id": "7ac3843a-fc7e-4b3a-a9bb-14c2fc5a739f",
+      "name": "Trigger Mensual (día 1 a las 8am)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -1360,
+        1024
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Solo calculamos el mes anterior como referencia\nconst now = new Date();\nconst firstDayLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);\nconst year = firstDayLastMonth.getFullYear();\nconst month = String(firstDayLastMonth.getMonth() + 1).padStart(2, '0');\nconst monthNames = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];\nconst monthName = monthNames[firstDayLastMonth.getMonth()];\nconst referenceMonth = `${year}-${month}`;\n\nreturn [{ json: { referenceMonth, year, month, monthName } }];;"
+      },
+      "id": "8cbdc255-083b-4fc4-babd-6c74bf857075",
+      "name": "Calcular Período Anterior",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1136,
+        1024
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.mercadolibre.com/billing/integration/monthly/periods",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "document_type",
+              "value": "BILL"
+            },
+            {
+              "name": "group",
+              "value": "ML"
+            },
+            {
+              "name": "limit",
+              "value": "12"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "={{\"Bearer \"}}{{ $json.Value }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6be6f21f-c1a0-4668-850f-38fd96caf696",
+      "name": "Obtener Períodos ML",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -688,
+        1024
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.mercadolibre.com/billing/integration/periods/key/2025-12-01/documents",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "group",
+              "value": "ML"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "={{\"Bearer \"}}{{ $('Get Acces Token').item.json.Value }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "05e4509a-92e7-4444-93ca-f461ba3f9059",
+      "name": "Descargar Facturas del Período",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -432,
+        1024
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Normaliza cada factura en una fila lista para Google Sheets\nconst raw = $input.first().json;\nconst docs = Array.isArray(raw) ? raw : (raw.results || raw.documents || []);\n\nif (!docs.length) {\n  throw new Error('No se encontraron facturas para este período.');\n}\n\nreturn docs.map(doc => ({\n  json: {\n    numero_factura:   doc.document_id       || doc.id             || '',\n    tipo:             doc.document_type     || 'BILL',\n    fecha:            doc.date_created      || doc.date           || '',\n    fecha_vencimiento:doc.due_date          || '',\n    estado:           doc.status            || '',\n    moneda:           doc.currency_id       || 'ARS',\n    subtotal:         doc.amount            || doc.subtotal       || 0,\n    iva:              doc.tax_amount        || doc.iva            || 0,\n    total:            doc.total_amount      || doc.total          || 0,\n    descripcion:      doc.description       || '',\n    orden_id:         doc.order_id          || '',\n    periodo:          $('Calcular Período Anterior').first().json.periodKey\n  }\n}));"
+      },
+      "id": "5a626092-d1ea-468f-b70a-39ec7fc04572",
+      "name": "Transformar Datos",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -240,
+        1024
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1lzPU7WiM8ta0eJfhutmrkWb-58zJxYRcF1lcRHv7_hw",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Hoja 1",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "numero_factura",
+              "displayName": "numero_factura",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "tipo",
+              "displayName": "tipo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "fecha",
+              "displayName": "fecha",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "fecha_vencimiento",
+              "displayName": "fecha_vencimiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "estado",
+              "displayName": "estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "moneda",
+              "displayName": "moneda",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "subtotal",
+              "displayName": "subtotal",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "iva",
+              "displayName": "iva",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "total",
+              "displayName": "total",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "descripcion",
+              "displayName": "descripcion",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "orden_id",
+              "displayName": "orden_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "periodo",
+              "displayName": "periodo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "48603512-6d74-440f-9d09-7b82237b21ec",
+      "name": "Escribir en Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        96,
+        1024
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "0DnKbO5azTdZ0OYb",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const total = $input.all().length;\nconst periodo = $('Calcular Período Anterior').first().json.periodKey;\nconsole.log(`✅ ${total} facturas del período ${periodo} cargadas en Google Sheets`);\nreturn [{ json: { mensaje: `${total} facturas cargadas`, periodo } }];"
+      },
+      "id": "aa3e9919-2226-4901-bc66-f53ebbbe7239",
+      "name": "Log Final",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        288,
+        1024
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "BySv6nN2G91Tmb29",
+          "mode": "list",
+          "cachedResultName": "MERCADOLIBRE",
+          "cachedResultUrl": "/projects/QMhvGbUSENwwqF91/datatables/BySv6nN2G91Tmb29"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "token",
+              "keyValue": "access_token"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        -912,
+        1024
+      ],
+      "id": "6bf82622-040c-4c5a-a4ff-46042ab02177",
+      "name": "Get Acces Token",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "BySv6nN2G91Tmb29",
+          "mode": "list",
+          "cachedResultName": "MERCADOLIBRE",
+          "cachedResultUrl": "/projects/QMhvGbUSENwwqF91/datatables/BySv6nN2G91Tmb29"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "token",
+              "keyValue": "access_token"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        -1008,
+        480
+      ],
+      "id": "f5b8ca91-9bd6-4108-be91-1cb9f1a2041f",
+      "name": "Get Acces Token1",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "operation": "clear",
+        "documentId": {
+          "__rl": true,
+          "value": "1lzPU7WiM8ta0eJfhutmrkWb-58zJxYRcF1lcRHv7_hw",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Hoja 1",
+          "mode": "name"
+        }
+      },
+      "id": "79fe3a33-8e2a-41f9-861d-1bd66737d789",
+      "name": "Escribir en Google Sheets1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        -80,
+        1024
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "0DnKbO5azTdZ0OYb",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "4fa7Q2uqEIQJ85Dx",
+          "mode": "list",
+          "cachedResultName": "ETIQUETAS IMPRESAS",
+          "cachedResultUrl": "/projects/QMhvGbUSENwwqF91/datatables/4fa7Q2uqEIQJ85Dx"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "IDSHIPING": "={{ $('🏷 Descargar etiqueta PDF').item.json.order_id }}"
+          },
+          "matchingColumns": [
+            "IDEM"
+          ],
+          "schema": [
+            {
+              "id": "IDSHIPING",
+              "displayName": "IDSHIPING",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        800,
+        400
+      ],
+      "id": "34f683e7-2338-4087-9906-54a645f3dd0d",
+      "name": "Insert row"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "4fa7Q2uqEIQJ85Dx",
+          "mode": "list",
+          "cachedResultName": "ETIQUETAS IMPRESAS",
+          "cachedResultUrl": "/projects/QMhvGbUSENwwqF91/datatables/4fa7Q2uqEIQJ85Dx"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "IDSHIPING",
+              "condition": "isNotEmpty"
+            }
+          ]
+        },
+        "orderBy": true
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        -800,
+        784
+      ],
+      "id": "5e70f643-f3b9-4ae0-b463-7ecd0fad7e4b",
+      "name": "Get row(s)1"
+    },
+    {
+      "parameters": {
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "order_id",
+              "field2": "IDSHIPING"
+            }
+          ]
+        },
+        "resolve": "preferInput2",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.compareDatasets",
+      "typeVersion": 2.3,
+      "position": [
+        -368,
+        720
+      ],
+      "id": "8f312ca8-31c2-4040-8253-f177afc7844f",
+      "name": "Compare Datasets"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "3a5dc24b-5ee7-437d-8c11-558cd805e2f5",
+              "leftValue": "={{ $('Obtener Shipping Status').item.json.substatus }}",
+              "rightValue": "printed",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "941b76b9-cd80-4bc3-8a06-462135f28982",
+              "leftValue": "={{ $('Obtener Shipping Status').item.json.order_id }}",
+              "rightValue": null,
+              "operator": {
+                "type": "number",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "bfc4dc81-d289-4454-a71e-a0325502373a",
+              "leftValue": "={{ $('Obtener Shipping Status').item.json.status }}",
+              "rightValue": "ready_to_ship",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "505d2959-ebbf-4c64-a11a-c88f93cfd647",
+      "name": "✅ ¿Listo para enviar?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -176,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.mercadolibre.com/orders/{{ $('📦 Obtener pedidos pagados').item.json.results[0].id }}\n",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "={{\"Bearer \"}}{{ $('Get Acces Token1').item.json.Value }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4840429f-4cc9-4bdb-ac79-343895ced1e7",
+      "name": "ML API - Obtener Orden",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        144,
+        16
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// =============================================\n// CONFIGURACIÓN - EDITÁ ESTE VALOR\n// =============================================\nconst TELEFONO_FIJO = \"+54 11 1234-5678\"; // <-- Cambiá por tu número\n\n// =============================================\n// OBTENER DATOS DE LA ORDEN\n// =============================================\nconst orden = $input.first().json;\nconst nombreCompleto = `${$input.first().json.first_name} ${$input.first().json.last_name}`.trim();\nconst orderId = orden.id;\n\n// =============================================\n// GENERAR PDF PURO EN JAVASCRIPT\n// =============================================\nfunction generarPDF(nombre, telefono) {\n  const escapar = (str) => str\n    .replace(/\\\\/g, '\\\\\\\\')\n    .replace(/\\(/g, '\\\\(')\n    .replace(/\\)/g, '\\\\)');\n\n  const titulo = escapar('Gracias por tu compra');\n  const linea1 = escapar(`Hola ${orden.first_name} ,`);\n  const linea2 = escapar('gracias por tu compra.');\n  const linea3 = escapar('Por cualquier inconveniente te podes');\n  const linea4 = escapar('comunicar con nosotros a traves de este numero:');\n  const linea5 = escapar(telefono);\n\n  const contenido = [\n    'BT',\n    '/F1 20 Tf',\n    '50 780 Td',\n    `(${titulo}) Tj`,\n    '/F1 13 Tf',\n    '0 -60 Td',\n    `(${linea1}) Tj`,\n    '0 -25 Td',\n    `(${linea2}) Tj`,\n    '0 -50 Td',\n    `(${linea3}) Tj`,\n    '0 -22 Td',\n    `(${linea4}) Tj`,\n    '/F1 15 Tf',\n    '0 -35 Td',\n    `(${linea5}) Tj`,\n    'ET'\n  ].join('\\n') + '\\n';\n\n  const streamBytes = Buffer.from(contenido, 'utf8');\n  const streamLen = streamBytes.length;\n\n  const obj1 = Buffer.from('1 0 obj\\n<< /Type /Catalog /Pages 2 0 R >>\\nendobj\\n', 'utf8');\n  const obj2 = Buffer.from('2 0 obj\\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\\nendobj\\n', 'utf8');\n  const obj3 = Buffer.from('3 0 obj\\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>\\nendobj\\n', 'utf8');\n  const obj4 = Buffer.from(`4 0 obj\\n<< /Length ${streamLen} >>\\nstream\\n${contenido}\\nendstream\\nendobj\\n`, 'utf8');\n  const obj5 = Buffer.from('5 0 obj\\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>\\nendobj\\n', 'utf8');\n\n  const header = Buffer.from('%PDF-1.4\\n', 'utf8');\n\n  const offsets = [];\n  let pos = header.length;\n  for (const obj of [obj1, obj2, obj3, obj4, obj5]) {\n    offsets.push(pos);\n    pos += obj.length;\n  }\n\n  const xrefOffset = pos;\n\n  let xrefStr = 'xref\\n0 6\\n';\n  xrefStr += '0000000000 65535 f \\n';\n  xrefStr += String(offsets[0]).padStart(10, '0') + ' 00000 n \\n';\n  xrefStr += String(offsets[1]).padStart(10, '0') + ' 00000 n \\n';\n  xrefStr += String(offsets[2]).padStart(10, '0') + ' 00000 n \\n';\n  xrefStr += String(offsets[3]).padStart(10, '0') + ' 00000 n \\n';\n  xrefStr += String(offsets[4]).padStart(10, '0') + ' 00000 n \\n';\n\n  const trailer = Buffer.from(\n    xrefStr +\n    'trailer\\n<< /Size 6 /Root 1 0 R >>\\n' +\n    `startxref\\n${xrefOffset}\\n%%EOF`,\n    'utf8'\n  );\n\n  const pdfBuffer = Buffer.concat([header, obj1, obj2, obj3, obj4, obj5, trailer]);\n  return pdfBuffer.toString('base64');\n}\n\n// =============================================\n// GENERAR Y RETORNAR\n// =============================================\nconst pdfBase64 = generarPDF(nombreCompleto, TELEFONO_FIJO);\n\nreturn [{\n  json: {\n    success: true,\n    orden_id: orderId,\n    comprador_nombre: nombreCompleto,\n    pdf_filename: `gracias_${nombreCompleto.replace(/ /g, '_')}_orden_${orderId}.pdf`,\n    pdf_base64: pdfBase64,\n    mensaje: `PDF generado exitosamente para ${nombreCompleto}`\n  }\n}];"
+      },
+      "id": "acf9c195-0c1b-42bb-8d02-e42b2fbdf3f9",
+      "name": "Code - Generar PDF",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        320,
+        16
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "pdf_base64",
+        "binaryPropertyName": "data2",
+        "options": {
+          "fileName": "data2"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        496,
+        16
+      ],
+      "id": "9aa8a747-9802-4675-a61e-a86e494a4c37",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        336,
+        400
+      ],
+      "id": "a0d0f8c8-e076-4006-86d0-15b76a2a514b",
+      "name": "Merge"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Actualiza Token ML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Actualiza Token ML": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Update row access_token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Update row access_token1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s)": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row access_token1": {
+      "main": [
+        [
+          {
+            "node": "Update row refresh_token1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row refresh_token1": {
+      "main": [
+        []
+      ]
+    },
+    "Update row refresh_token": {
+      "main": [
+        []
+      ]
+    },
+    "Update row access_token": {
+      "main": [
+        [
+          {
+            "node": "Update row refresh_token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📦 Obtener pedidos pagados": {
+      "main": [
+        [
+          {
+            "node": "Separar pedidos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🏷 Descargar etiqueta PDF": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "📝 Registrar envío": {
+      "main": [
+        []
+      ]
+    },
+    "⏭ Omitir pedido": {
+      "main": [
+        []
+      ]
+    },
+    "Obtener Shipping Status": {
+      "main": [
+        [
+          {
+            "node": "Compare Datasets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Separar pedidos": {
+      "main": [
+        [
+          {
+            "node": "Obtener Shipping Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Insert row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Get Acces Token1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get row(s)1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Trigger Mensual (día 1 a las 8am)": {
+      "main": [
+        [
+          {
+            "node": "Calcular Período Anterior",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calcular Período Anterior": {
+      "main": [
+        [
+          {
+            "node": "Get Acces Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obtener Períodos ML": {
+      "main": [
+        [
+          {
+            "node": "Descargar Facturas del Período",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Descargar Facturas del Período": {
+      "main": [
+        [
+          {
+            "node": "Transformar Datos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transformar Datos": {
+      "main": [
+        [
+          {
+            "node": "Escribir en Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Escribir en Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Log Final",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Acces Token": {
+      "main": [
+        [
+          {
+            "node": "Obtener Períodos ML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Acces Token1": {
+      "main": [
+        [
+          {
+            "node": "📦 Obtener pedidos pagados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Escribir en Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "Escribir en Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert row": {
+      "main": [
+        [
+          {
+            "node": "📝 Registrar envío",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s)1": {
+      "main": [
+        [
+          {
+            "node": "Compare Datasets",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Compare Datasets": {
+      "main": [
+        [
+          {
+            "node": "✅ ¿Listo para enviar?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "✅ ¿Listo para enviar?": {
+      "main": [
+        [
+          {
+            "node": "🏷 Descargar etiqueta PDF",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "ML API - Obtener Orden",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "⏭ Omitir pedido",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ML API - Obtener Orden": {
+      "main": [
+        [
+          {
+            "node": "Code - Generar PDF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Generar PDF": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message1": {
+      "main": [
+        []
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "3b871c5f-4364-41f1-abdf-1291c2643f94",
+  "meta": {
+    "instanceId": "71594b79552fd834705d8af4b4c11631cb9d1275acddb2316ade3672ba232d34"
+  },
+  "id": "vyskiI6JBGzSslav",
+  "tags": []
+}

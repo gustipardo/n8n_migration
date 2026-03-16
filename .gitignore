@@ -1,0 +1,6 @@
+.env
+tokens.json
+pedidos_procesados.json
+__pycache__/
+*.pyc
+venv/
