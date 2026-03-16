@@ -109,9 +109,11 @@ def enviar_email(
         msg.attach(part)
 
     try:
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-            server.login(gmail_user, gmail_password)
-            server.sendmail(gmail_user, destinatarios, msg.as_string())
+        server = smtplib.SMTP("smtp.gmail.com", 587, timeout=30)
+        server.starttls()
+        server.login(gmail_user, gmail_password)
+        server.sendmail(gmail_user, destinatarios, msg.as_string())
+        server.quit()
         print(f"[EMAIL] Enviado a {destinatarios}")
         return True
     except Exception as e:
